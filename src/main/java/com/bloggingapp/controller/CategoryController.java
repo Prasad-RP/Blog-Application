@@ -77,7 +77,7 @@ public class CategoryController {
 		return new ResponseEntity(new ApiResponse("Category deleted successfylly...", true), HttpStatus.OK);
 	}
 
-	// GET-det single category
+	// GET- single category
 	@GetMapping("/{id}")
 	public ResponseEntity<CategoryDto> getCategory(@PathVariable("id") Integer id) {
 		logger.info("Started getCategory() Function");
