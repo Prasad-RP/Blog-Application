@@ -1,5 +1,7 @@
 package com.bloggingapp.entity;
-
+/**
+ * @author Prasad Pansare
+ */
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
