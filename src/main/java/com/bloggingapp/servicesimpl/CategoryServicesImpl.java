@@ -8,9 +8,9 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bloggingapp.dto.CategoryDto;
 import com.bloggingapp.entity.Category;
 import com.bloggingapp.exception.ResourceNotFoundException;
-import com.bloggingapp.payload.CategoryDto;
 import com.bloggingapp.repository.CategoryRepository;
 import com.bloggingapp.services.CategoryServices;
 import com.bloggingapp.utility.GlobleResources;

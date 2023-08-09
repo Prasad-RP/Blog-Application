@@ -26,9 +26,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.bloggingapp.config.AppConstant;
-import com.bloggingapp.payload.ApiResponse;
-import com.bloggingapp.payload.PostDto;
-import com.bloggingapp.payload.PostResponse;
+import com.bloggingapp.dto.ApiResponse;
+import com.bloggingapp.dto.PostDto;
+import com.bloggingapp.dto.PostResponse;
 import com.bloggingapp.services.FileServices;
 import com.bloggingapp.services.PostServices;
 import com.bloggingapp.utility.GlobleResources;

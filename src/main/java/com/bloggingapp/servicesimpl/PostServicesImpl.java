@@ -11,12 +11,13 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import com.bloggingapp.dto.PostDto;
+import com.bloggingapp.dto.PostResponse;
 import com.bloggingapp.entity.Category;
 import com.bloggingapp.entity.Post;
 import com.bloggingapp.entity.User;
 import com.bloggingapp.exception.ResourceNotFoundException;
-import com.bloggingapp.payload.PostDto;
-import com.bloggingapp.payload.PostResponse;
 import com.bloggingapp.repository.CategoryRepository;
 import com.bloggingapp.repository.PostRepository;
 import com.bloggingapp.repository.UserRepository;

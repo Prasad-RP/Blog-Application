@@ -1,4 +1,4 @@
-package com.bloggingapp.payload;
+package com.bloggingapp.dto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 

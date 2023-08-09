@@ -1,4 +1,4 @@
-package com.bloggingapp.payload;
+package com.bloggingapp.dto;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;

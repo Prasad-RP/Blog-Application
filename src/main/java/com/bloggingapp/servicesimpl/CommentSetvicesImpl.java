@@ -6,11 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
 
+import com.bloggingapp.dto.CommentDto;
+import com.bloggingapp.dto.PostResponse;
 import com.bloggingapp.entity.Comment;
 import com.bloggingapp.entity.Post;
 import com.bloggingapp.exception.ResourceNotFoundException;
-import com.bloggingapp.payload.CommentDto;
-import com.bloggingapp.payload.PostResponse;
 import com.bloggingapp.repository.CommentRepository;
 import com.bloggingapp.repository.PostRepository;
 import com.bloggingapp.services.CommentServices;

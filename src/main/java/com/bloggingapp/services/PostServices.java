@@ -2,9 +2,9 @@ package com.bloggingapp.services;
 
 import java.util.List;
 
+import com.bloggingapp.dto.PostDto;
+import com.bloggingapp.dto.PostResponse;
 import com.bloggingapp.entity.Post;
-import com.bloggingapp.payload.PostDto;
-import com.bloggingapp.payload.PostResponse;
 
 public interface PostServices {
 	

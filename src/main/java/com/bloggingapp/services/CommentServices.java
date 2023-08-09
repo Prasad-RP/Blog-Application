@@ -1,6 +1,6 @@
 package com.bloggingapp.services;
 
-import com.bloggingapp.payload.CommentDto;
+import com.bloggingapp.dto.CommentDto;
 
 public interface CommentServices {
 	CommentDto ctrateComment(CommentDto commentDto,Integer postId);

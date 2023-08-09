@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.bloggingapp.payload.CommentDto;
+import com.bloggingapp.dto.CommentDto;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;

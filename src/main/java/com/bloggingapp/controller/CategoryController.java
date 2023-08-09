@@ -1,7 +1,9 @@
 package com.bloggingapp.controller;
+
 /**
  * @author Prasad Pansare
  */
+
 import java.util.List;
 
 import org.hibernate.query.NativeQuery.ReturnableResultNode;
@@ -19,8 +21,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bloggingapp.payload.ApiResponse;
-import com.bloggingapp.payload.CategoryDto;
+import com.bloggingapp.dto.ApiResponse;
+import com.bloggingapp.dto.CategoryDto;
 import com.bloggingapp.services.CategoryServices;
 import com.bloggingapp.utility.GlobleResources;
 

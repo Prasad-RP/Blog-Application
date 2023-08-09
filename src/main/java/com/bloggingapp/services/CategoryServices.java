@@ -2,7 +2,7 @@ package com.bloggingapp.services;
 
 import java.util.List;
 
-import com.bloggingapp.payload.CategoryDto;
+import com.bloggingapp.dto.CategoryDto;
 
 public interface CategoryServices {
 
