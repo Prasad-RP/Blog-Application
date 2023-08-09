@@ -28,7 +28,7 @@ public class UserServicesImpl implements UserServices {
 	ModelMapper modelMapper;
 
 	@Autowired
-	private PasswordEncoder encoder;
+	PasswordEncoder encoder;
 
 	@Override
 	public UserDto addUser(UserDto userDto) {
@@ -67,7 +67,8 @@ public class UserServicesImpl implements UserServices {
 		logger.info("Sarted getById() Function");
 		String method = " getAllUser(Integer id)";
 		logger.info(method);
-		UserMaster user = this.userRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException(" User", " id ", id));
+		UserMaster user = this.userRepo.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException(" User", " id ", id));
 
 		return this.userToUserDto(user);
 	}
@@ -100,7 +101,6 @@ public class UserServicesImpl implements UserServices {
 			user.setName(userDto.getName());
 			user.setEmail(userDto.getEmail());
 			user.setPassword(userDto.getPassword());
-			user.setAbout(userDto.getAbout());
 
 			updateId = this.userRepo.save(user);
 			userDto1 = this.userToUserDto(updateId);

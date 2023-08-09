@@ -17,7 +17,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @NoArgsConstructor
-@Table(name = "User")
+@Table(name = "users")
 public class UserMaster {
 
 	private static final long serialVersionUID = 1L;
@@ -29,7 +29,6 @@ public class UserMaster {
 	private String name;
 	private String email;
 	private String password;
-	private String about;
 	private String roles;
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private List<PostMaster> post;

@@ -14,23 +14,23 @@ import com.bloggingapp.dto.ApiResponse;
 
 @RestControllerAdvice
 public class GlobleExceptionHandler {
-	@ExceptionHandler( ResourceNotFoundException.class)
-	public ResponseEntity<ApiResponse> resourceNotFoundException( ResourceNotFoundException ex){
-		String message=ex.getMessage();
-		ApiResponse apiResponse=new ApiResponse(message,false);
-		return new ResponseEntity<ApiResponse>(apiResponse,HttpStatus.NOT_FOUND);
+	@ExceptionHandler(ResourceNotFoundException.class)
+	public ResponseEntity<ApiResponse> resourceNotFoundException(ResourceNotFoundException ex) {
+		String message = ex.getMessage();
+		ApiResponse apiResponse = new ApiResponse(message, false);
+		return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.NOT_FOUND);
 	}
-	
+
 	@ExceptionHandler(MethodArgumentNotValidException.class)
-	public ResponseEntity<Map<String,String>> methodArgumentNotValidException(MethodArgumentNotValidException ex){
-		
-		Map<String, String> resp=new HashMap<>();
-		ex.getBindingResult().getAllErrors().forEach((error)->{
-			String fieldName=((FieldError)error).getField();
-			String message=error.getDefaultMessage();
+	public ResponseEntity<Map<String, String>> methodArgumentNotValidException(MethodArgumentNotValidException ex) {
+
+		Map<String, String> resp = new HashMap<>();
+		ex.getBindingResult().getAllErrors().forEach((error) -> {
+			String fieldName = ((FieldError) error).getField();
+			String message = error.getDefaultMessage();
 			resp.put(fieldName, message);
 		});
-		
-		return new ResponseEntity<Map<String,String>>(resp,HttpStatus.BAD_REQUEST);
+
+		return new ResponseEntity<Map<String, String>>(resp, HttpStatus.BAD_REQUEST);
 	}
 }
