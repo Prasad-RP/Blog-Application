@@ -2,8 +2,8 @@ package com.bloggingapp.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.bloggingapp.entity.Category;
+import com.bloggingapp.entity.CategoryMaster;
 
-public interface CategoryRepository extends JpaRepository<Category, Integer>{
+public interface CategoryRepository extends JpaRepository<CategoryMaster, Integer>{
 
 }

@@ -1,4 +1,4 @@
-package com.bloggingapp.controller;
+package com.bloggingapp.api;
 
 /**
  * @author Prasad Pansare
@@ -26,16 +26,16 @@ import com.bloggingapp.utility.GlobleResources;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/")
-public class UserController {
+@RequestMapping("/api/User")
+public class UserApis {
 
-	private Logger logger = GlobleResources.getLogger(UserController.class);
+	private Logger logger = GlobleResources.getLogger(UserApis.class);
 
 	@Autowired
 	private UserServices service;
 
 	// POST-create user
-	@PostMapping("/")
+	@PostMapping("/new")
 	public ResponseEntity<UserDto> addUser(@Valid @RequestBody UserDto userdto) {
 		logger.info("Started addUser() function");
 

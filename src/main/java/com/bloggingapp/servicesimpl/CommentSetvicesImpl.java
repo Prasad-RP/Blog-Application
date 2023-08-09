@@ -8,8 +8,8 @@ import org.springframework.ui.ModelMap;
 
 import com.bloggingapp.dto.CommentDto;
 import com.bloggingapp.dto.PostResponse;
-import com.bloggingapp.entity.Comment;
-import com.bloggingapp.entity.Post;
+import com.bloggingapp.entity.CommentMaster;
+import com.bloggingapp.entity.PostMaster;
 import com.bloggingapp.exception.ResourceNotFoundException;
 import com.bloggingapp.repository.CommentRepository;
 import com.bloggingapp.repository.PostRepository;
@@ -36,15 +36,15 @@ public class CommentSetvicesImpl implements CommentServices {
 	public CommentDto ctrateComment(CommentDto commentDto, Integer postId) {
 		logger.info("Sarted createComment() Function");
 
-		Post post =null;
-		Comment comment=null;
-		Comment saveComment=null;
+		PostMaster post =null;
+		CommentMaster comment=null;
+		CommentMaster saveComment=null;
 		
 		try {
 			post = this.postRepo.findById(postId)
 					.orElseThrow(() -> new ResourceNotFoundException("Post", " id ", postId));
 
-			comment=this.modelMapper.map(commentDto, Comment.class);
+			comment=this.modelMapper.map(commentDto, CommentMaster.class);
 			
 			comment.setPost(post);
 			
@@ -61,7 +61,7 @@ public class CommentSetvicesImpl implements CommentServices {
 	public void deleteComment(Integer commentId) {
 		logger.info("Sarted deleteComment() Function");
 
-		Comment comment=null;
+		CommentMaster comment=null;
 		
 		try {
 			comment=this.commentRepo.findById(commentId).orElseThrow(()->new ResourceNotFoundException("Comment", " id ", commentId));

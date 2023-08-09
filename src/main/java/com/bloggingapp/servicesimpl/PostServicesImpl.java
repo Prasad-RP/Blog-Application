@@ -14,9 +14,9 @@ import org.springframework.stereotype.Service;
 
 import com.bloggingapp.dto.PostDto;
 import com.bloggingapp.dto.PostResponse;
-import com.bloggingapp.entity.Category;
-import com.bloggingapp.entity.Post;
-import com.bloggingapp.entity.User;
+import com.bloggingapp.entity.CategoryMaster;
+import com.bloggingapp.entity.PostMaster;
+import com.bloggingapp.entity.UserMaster;
 import com.bloggingapp.exception.ResourceNotFoundException;
 import com.bloggingapp.repository.CategoryRepository;
 import com.bloggingapp.repository.PostRepository;
@@ -44,16 +44,16 @@ public class PostServicesImpl implements PostServices {
 	@Override
 	public PostDto createPost(PostDto postdto,Integer userId,Integer categoryId) {
 		logger.info("Sarted createPost() Function");
-		User user=null;
-		Category category =null;
-		Post post=null;
-		Post savePost=null;
+		UserMaster user=null;
+		CategoryMaster category =null;
+		PostMaster post=null;
+		PostMaster savePost=null;
 		
 		try {
 			user= this.userRepo.findById(userId).orElseThrow(()->new ResourceNotFoundException("User" , "Id", userId));
 			category = this.categoryRepo.findById(categoryId).orElseThrow(()->new ResourceNotFoundException("Category", "id", categoryId));
 			
-			post=this.modelmapper.map(postdto, Post.class);
+			post=this.modelmapper.map(postdto, PostMaster.class);
 			
 			post.setImageName("default.png");
 			post.setAddDate(new Date());
@@ -71,8 +71,8 @@ public class PostServicesImpl implements PostServices {
 	@Override
 	public PostDto updatePost(PostDto postDto, Integer id) {
 		logger.info("Sarted updatePost() Function");
-		Post post=null;
-		Post save=null;
+		PostMaster post=null;
+		PostMaster save=null;
 		try {
 
 			post=this.postRepo.findById(id).orElseThrow(()-> new ResourceNotFoundException("Post ", " id ", id));
@@ -90,7 +90,7 @@ public class PostServicesImpl implements PostServices {
 	@Override
 	public void deletePost(Integer id) {
 		logger.info("Sarted deletePost() Function");
-		Post post=null;
+		PostMaster post=null;
 		try {
 			post=this.postRepo.findById(id).orElseThrow(()-> new ResourceNotFoundException(" Post ", " id ", id));
 
@@ -106,8 +106,8 @@ public class PostServicesImpl implements PostServices {
 	public PostResponse getAllPost(Integer pageNumber,Integer pageValue,String sortBy,String sortDir) {
 		logger.info("Sarted getAllPOst() Function");
 		Sort sort=null;
-		Page<Post> pagePost=null;
-		List<Post> allPost=null;
+		Page<PostMaster> pagePost=null;
+		List<PostMaster> allPost=null;
 		List<PostDto> userDto=null;
 		PostResponse post=null;
 		if(sortDir.equalsIgnoreCase("asc")) {
@@ -147,7 +147,7 @@ public class PostServicesImpl implements PostServices {
 	@Override
 	public PostDto getSinglePost(Integer id) {
 		logger.info("Sarted getSinglePost() Function");
-		Post post=null;
+		PostMaster post=null;
 		
 		try {
 			post=this.postRepo.findById(id).orElseThrow(()->new ResourceNotFoundException("Post ", " id ", id));
@@ -161,8 +161,8 @@ public class PostServicesImpl implements PostServices {
 	@Override
 	public List<PostDto> getPostsByCategory(Integer categoryId) {
 		logger.info("Sarted getPostByCategory() Function");
-		Category categary=null;
-		List<Post> posts=null;
+		CategoryMaster categary=null;
+		List<PostMaster> posts=null;
 		List<PostDto> postDto=null;
 		
 		try {
@@ -179,8 +179,8 @@ public class PostServicesImpl implements PostServices {
 	@Override
 	public List<PostDto> getPostByUser(Integer userId) {
 		logger.info("Sarted getPostByUser() Function");
-		User user=null;
-		List<Post> post=null;
+		UserMaster user=null;
+		List<PostMaster> post=null;
 		List<PostDto> postDto=null;
 		try {
 			user=this.userRepo.findById(userId).orElseThrow(()->new ResourceNotFoundException("User", " id ", userId));
@@ -197,7 +197,7 @@ public class PostServicesImpl implements PostServices {
 	@Override
 	public List<PostDto> serchPosts(String keyword) {
 		logger.info("Sarted serchPosts() Function");
-		List<Post> post=null;
+		List<PostMaster> post=null;
 		List<PostDto> postDto=null;
 		
 		try {

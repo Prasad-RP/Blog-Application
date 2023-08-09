@@ -23,7 +23,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Post {
+public class PostMaster {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int postId;
@@ -38,13 +38,13 @@ public class Post {
 	private Date addDate;
 
 	@ManyToOne
-	private User user;
+	private UserMaster user;
 
 	@ManyToOne
 	@JoinColumn(name = "category_id")
-	private Category category;
+	private CategoryMaster category;
 
 	@OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
-	private Set<Comment> comment = new HashSet<>();
+	private Set<CommentMaster> comment = new HashSet<>();
 
 }

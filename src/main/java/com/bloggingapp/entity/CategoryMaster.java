@@ -17,11 +17,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "categoties")
+@Table(name = "categories")
 @NoArgsConstructor
 @Getter
 @Setter
-public class Category {
+public class CategoryMaster {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,5 +34,5 @@ public class Category {
 	private String categoryDescription;
 	
 	@OneToMany(mappedBy = "category",cascade = CascadeType.ALL)
-	private List<Post> post;
+	private List<PostMaster> post;
 }

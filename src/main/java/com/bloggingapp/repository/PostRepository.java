@@ -5,18 +5,18 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
-import com.bloggingapp.entity.Category;
-import com.bloggingapp.entity.Post;
-import com.bloggingapp.entity.User;
+import com.bloggingapp.entity.CategoryMaster;
+import com.bloggingapp.entity.PostMaster;
+import com.bloggingapp.entity.UserMaster;
 
 @Service
-public interface PostRepository extends JpaRepository<Post, Integer> {
+public interface PostRepository extends JpaRepository<PostMaster, Integer> {
 	
-	List<Post> findByUser(User user);
+	List<PostMaster> findByUser(UserMaster user);
 	
 	
-	List<Post> findByCategory(Category category);
+	List<PostMaster> findByCategory(CategoryMaster category);
 	
-	List<Post> findByTitleContaining(String title);
+	List<PostMaster> findByTitleContaining(String title);
 	
 }	

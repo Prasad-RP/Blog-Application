@@ -11,7 +11,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class Comment {
+public class CommentMaster {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,5 +19,5 @@ public class Comment {
 	private String comments;
 	
 	@ManyToOne
-	private Post post;
+	private PostMaster post;
 }

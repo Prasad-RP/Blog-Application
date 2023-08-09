@@ -1,4 +1,4 @@
-package com.bloggingapp.controller;
+package com.bloggingapp.api;
 /**
  * @author Prasad Pansare
  */
@@ -38,9 +38,9 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("/api/")
-public class PostController {
+public class PostApis {
 
-	private Logger logger=GlobleResources.getLogger(PostController.class);
+	private Logger logger=GlobleResources.getLogger(PostApis.class);
 	
 	@Autowired
 	private PostServices services;

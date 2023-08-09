@@ -1,4 +1,4 @@
-package com.bloggingapp.controller;
+package com.bloggingapp.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,7 +17,7 @@ import com.bloggingapp.services.CommentServices;
 @RestController
 @RequestMapping("/api/")
 
-public class CommentController {
+public class CommentApi {
 
 	// private Logger logger=GlobleResources.getLogger(Controller.class);
 

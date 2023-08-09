@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bloggingapp.dto.CategoryDto;
-import com.bloggingapp.entity.Category;
+import com.bloggingapp.entity.CategoryMaster;
 import com.bloggingapp.exception.ResourceNotFoundException;
 import com.bloggingapp.repository.CategoryRepository;
 import com.bloggingapp.services.CategoryServices;
@@ -29,8 +29,8 @@ public class CategoryServicesImpl implements CategoryServices {
 	@Override
 	public CategoryDto addCategory(CategoryDto categoryDto) {
 		logger.info("Sarted addCategory() Function");
-		Category category = null;
-		Category SaveCategory = null;
+		CategoryMaster category = null;
+		CategoryMaster SaveCategory = null;
 
 		try {
 			category = this.categoryDtoToCategory(categoryDto);
@@ -45,15 +45,14 @@ public class CategoryServicesImpl implements CategoryServices {
 	@Override
 	public CategoryDto updateCategory(CategoryDto categoryDto, Integer id) {
 		logger.info("Sarted updateCategory() Function");
-		Category category =null;
-		CategoryDto dto=null;
+		CategoryMaster category = null;
+		CategoryDto dto = null;
 		try {
-			category = this.repo.findById(id)
-					.orElseThrow(() -> new ResourceNotFoundException(" Category ", "id ", id));
+			category = this.repo.findById(id).orElseThrow(() -> new ResourceNotFoundException(" Category ", "id ", id));
 			category.setCategoryTitle(categoryDto.getCategoryTitle());
 			category.setCategoryDescription(categoryDto.getCategoryDescription());
 
-			Category save = this.repo.save(category);
+			CategoryMaster save = this.repo.save(category);
 			dto = this.categoryToCategoryDto(save);
 
 		} catch (Exception e) {
@@ -66,7 +65,7 @@ public class CategoryServicesImpl implements CategoryServices {
 	public void deleteCategory(Integer id) {
 		logger.info("Sarted deleteCategory() Function");
 
-		Category category = this.repo.findById(id)
+		CategoryMaster category = this.repo.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException(" Category ", " id ", id));
 		this.repo.deleteById(id);
 
@@ -75,8 +74,8 @@ public class CategoryServicesImpl implements CategoryServices {
 	@Override
 	public CategoryDto getCategory(Integer id) {
 		logger.info("Sarted getCategory() Function");
-		Category category =null;
-		
+		CategoryMaster category = null;
+
 		try {
 			category = this.repo.findById(id)
 					.orElseThrow(() -> new ResourceNotFoundException(" Category ", " id ", id));
@@ -90,8 +89,8 @@ public class CategoryServicesImpl implements CategoryServices {
 	public List<CategoryDto> getAllCategory() {
 
 		logger.info("Sarted getAllCategory() Function");
-		List<Category> allCategory=null;
-		List<CategoryDto> categoryDto=null;
+		List<CategoryMaster> allCategory = null;
+		List<CategoryDto> categoryDto = null;
 		allCategory = this.repo.findAll();
 		categoryDto = allCategory.stream().map(category -> this.categoryToCategoryDto(category))
 				.collect(Collectors.toList());
@@ -100,20 +99,20 @@ public class CategoryServicesImpl implements CategoryServices {
 
 	}
 
-	public Category categoryDtoToCategory(CategoryDto dto) {
-		Category category=null;
+	public CategoryMaster categoryDtoToCategory(CategoryDto dto) {
+		CategoryMaster category = null;
 		try {
-			category = this.modelMapper.map(dto, Category.class);
+			category = this.modelMapper.map(dto, CategoryMaster.class);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return category;
 	}
 
-	public CategoryDto categoryToCategoryDto(Category category) {
-		CategoryDto categoryDto=null;
+	public CategoryDto categoryToCategoryDto(CategoryMaster category) {
+		CategoryDto categoryDto = null;
 		try {
-			categoryDto= this.modelMapper.map(category, CategoryDto.class);
+			categoryDto = this.modelMapper.map(category, CategoryDto.class);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

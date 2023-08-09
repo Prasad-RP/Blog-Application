@@ -1,4 +1,4 @@
-package com.bloggingapp.controller;
+package com.bloggingapp.api;
 
 /**
  * @author Prasad Pansare
@@ -31,9 +31,9 @@ import lombok.Getter;
 
 @RestController
 @RequestMapping("/api/category/")
-public class CategoryController {
+public class CategoryApi {
 	
-	private Logger logger=GlobleResources.getLogger(CategoryController.class);
+	private Logger logger=GlobleResources.getLogger(CategoryApi.class);
 
 	@Autowired
 	private CategoryServices service;
