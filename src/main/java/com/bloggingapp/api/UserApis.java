@@ -1,7 +1,8 @@
 package com.bloggingapp.api;
 
+import static com.bloggingapp.config.AppConstant.ROLE_ADMIN;
+import static com.bloggingapp.config.AppConstant.ROLE_USER;
 import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.bloggingapp.dto.ApiResponse;
 import com.bloggingapp.dto.UserDto;
 import com.bloggingapp.services.UserServices;
@@ -52,7 +52,7 @@ public class UserApis {
 	// PUT-Update Data
 
 	@PutMapping("/{id}")
-	@PreAuthorize("hasAuthority('ADMIN')")
+	@PreAuthorize(ROLE_ADMIN)
 	public ResponseEntity<UserDto> updateUser(@RequestBody UserDto userDto, @PathVariable("id") Integer id) {
 		log.info("updating user with id: " + id);
 		UserDto updatedUser = null;
@@ -67,7 +67,7 @@ public class UserApis {
 
 	// DELETE-delete user
 	@DeleteMapping("/{id}")
-	@PreAuthorize("hasAuthority('USER')")
+	@PreAuthorize(ROLE_USER)
 	public ResponseEntity<ApiResponse> userDeleted(@PathVariable("id") Integer id) {
 		log.info("Deleting user with id: " + id);
 		try {
@@ -80,7 +80,7 @@ public class UserApis {
 
 	// GET-get all user
 	@GetMapping("/all")
-	@PreAuthorize("hasAuthority('ADMIN')")
+	@PreAuthorize(ROLE_ADMIN)
 	public ResponseEntity<List<UserDto>> getAllUser() {
 		log.info("Getting all users...");
 		return ResponseEntity.ok(this.service.getAllUser());
@@ -88,7 +88,7 @@ public class UserApis {
 
 	// GET-single user
 	@GetMapping("/{id}")
-	@PreAuthorize("hasAuthority('USER')")
+	@PreAuthorize(ROLE_USER)
 	public ResponseEntity<UserDto> getById(@PathVariable("id") Integer id) {
 		log.info("Getting user with id:" + id);
 		try {
