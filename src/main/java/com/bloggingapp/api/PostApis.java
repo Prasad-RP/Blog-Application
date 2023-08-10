@@ -104,7 +104,7 @@ private static final Logger log = LoggerFactory.getLogger(PostApis.class);
 			@RequestParam(value = "pageNumber", defaultValue = AppConstant.PAGE_NUMBER, required = false) Integer pageNumber,
 			@RequestParam(value = "pageSize", defaultValue = AppConstant.PAGE_SIZE, required = false) Integer pageSize,
 			@RequestParam(value = "sortBy", defaultValue = AppConstant.SORT_BY, required = false) String sortBy,
-			@RequestParam(value = "sortDir", defaultValue = AppConstant.SORT_DIR, required = false) String sortDir) {
+			@RequestParam(value = "sortDir", defaultValue = AppConstant.SORT_DIRETION, required = false) String sortDir) {
 		log.info("Getting all posts ");
 		PostResponse allPost = null;
 		try {
