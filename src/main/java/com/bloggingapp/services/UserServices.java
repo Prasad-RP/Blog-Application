@@ -1,7 +1,6 @@
 package com.bloggingapp.services;
 
 import java.util.List;
-
 import com.bloggingapp.dto.UserDto;
 
 public interface UserServices {

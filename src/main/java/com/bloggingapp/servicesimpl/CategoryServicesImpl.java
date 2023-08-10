@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,12 +12,9 @@ import com.bloggingapp.entity.CategoryMaster;
 import com.bloggingapp.exception.ResourceNotFoundException;
 import com.bloggingapp.repository.CategoryRepository;
 import com.bloggingapp.services.CategoryServices;
-import com.bloggingapp.utility.GlobleResources;
 
 @Service
 public class CategoryServicesImpl implements CategoryServices {
-
-	private Logger logger = GlobleResources.getLogger(CategoryServicesImpl.class);
 
 	@Autowired
 	private CategoryRepository repo;
@@ -28,7 +24,6 @@ public class CategoryServicesImpl implements CategoryServices {
 
 	@Override
 	public CategoryDto addCategory(CategoryDto categoryDto) {
-		logger.info("Sarted addCategory() Function");
 		CategoryMaster category = null;
 		CategoryMaster SaveCategory = null;
 
@@ -44,7 +39,6 @@ public class CategoryServicesImpl implements CategoryServices {
 
 	@Override
 	public CategoryDto updateCategory(CategoryDto categoryDto, Integer id) {
-		logger.info("Sarted updateCategory() Function");
 		CategoryMaster category = null;
 		CategoryDto dto = null;
 		try {
@@ -63,7 +57,6 @@ public class CategoryServicesImpl implements CategoryServices {
 
 	@Override
 	public void deleteCategory(Integer id) {
-		logger.info("Sarted deleteCategory() Function");
 
 		CategoryMaster category = this.repo.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException(" Category ", " id ", id));
@@ -73,7 +66,6 @@ public class CategoryServicesImpl implements CategoryServices {
 
 	@Override
 	public CategoryDto getCategory(Integer id) {
-		logger.info("Sarted getCategory() Function");
 		CategoryMaster category = null;
 
 		try {
@@ -88,7 +80,6 @@ public class CategoryServicesImpl implements CategoryServices {
 	@Override
 	public List<CategoryDto> getAllCategory() {
 
-		logger.info("Sarted getAllCategory() Function");
 		List<CategoryMaster> allCategory = null;
 		List<CategoryDto> categoryDto = null;
 		allCategory = this.repo.findAll();
@@ -116,7 +107,6 @@ public class CategoryServicesImpl implements CategoryServices {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 		return categoryDto;
 	}
 

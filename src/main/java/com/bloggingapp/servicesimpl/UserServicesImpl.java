@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -14,12 +13,9 @@ import com.bloggingapp.entity.UserMaster;
 import com.bloggingapp.exception.ResourceNotFoundException;
 import com.bloggingapp.repository.UserRepository;
 import com.bloggingapp.services.UserServices;
-import com.bloggingapp.utility.GlobleResources;
 
 @Service
 public class UserServicesImpl implements UserServices {
-
-	private Logger logger = GlobleResources.getLogger(UserServicesImpl.class);
 
 	@Autowired
 	UserRepository userRepo;
@@ -32,7 +28,6 @@ public class UserServicesImpl implements UserServices {
 
 	@Override
 	public UserDto addUser(UserDto userDto) {
-		logger.info("Sarted addUser() Function");
 		UserMaster user = null;
 		UserMaster saveUser = null;
 		try {
@@ -48,7 +43,6 @@ public class UserServicesImpl implements UserServices {
 
 	@Override
 	public void deleteUser(Integer id) {
-		logger.info("Sarted deleteUser() Function");
 		try {
 			this.userRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException(" User ", " id ", id));
 			this.userRepo.deleteById(id);
@@ -56,17 +50,10 @@ public class UserServicesImpl implements UserServices {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public UserDto getById(Integer id) {
-
-		logger.info("Sarted getById() Function");
-		String method = " getAllUser(Integer id)";
-		logger.info(method);
 		UserMaster user = this.userRepo.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException(" User", " id ", id));
 
@@ -75,7 +62,6 @@ public class UserServicesImpl implements UserServices {
 
 	@Override
 	public List<UserDto> getAllUser() {
-		logger.info("Sarted getAllUser() Function");
 		List<UserMaster> allUser = null;
 		List<UserDto> userDto = null;
 
@@ -91,7 +77,6 @@ public class UserServicesImpl implements UserServices {
 
 	@Override
 	public UserDto updateUser(UserDto userDto, Integer id) {
-		logger.info("Sarted updateUser() Function");
 		UserMaster user = null;
 		UserMaster updateId = null;
 		UserDto userDto1 = null;
@@ -105,7 +90,7 @@ public class UserServicesImpl implements UserServices {
 			updateId = this.userRepo.save(user);
 			userDto1 = this.userToUserDto(updateId);
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 
 		return userDto1;
