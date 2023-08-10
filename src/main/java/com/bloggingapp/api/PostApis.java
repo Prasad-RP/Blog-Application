@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -38,6 +40,8 @@ import jakarta.servlet.http.HttpServletResponse;
 @RequestMapping("/api/")
 public class PostApis {
 
+private static final Logger log = LoggerFactory.getLogger(PostApis.class);
+
 	@Autowired
 	private PostServices services;
 
@@ -51,6 +55,7 @@ public class PostApis {
 	@PostMapping("/user/{userId}/category/{categoryId}/posts")
 	public ResponseEntity<PostDto> addPost(@RequestBody PostDto postDto, @PathVariable Integer userId,
 			@PathVariable Integer categoryId) {
+		log.info("addig post with category id"+categoryId+" for user with id"+userId);
 		PostDto dto = null;
 		try {
 			dto = this.services.createPost(postDto, userId, categoryId);
@@ -63,6 +68,8 @@ public class PostApis {
 	// updatePost
 	@PutMapping("/posts/{id}")
 	public ResponseEntity<PostDto> updatePost(@PathVariable Integer id, @RequestBody PostDto postDto) {
+		log.info("Updating post with id:"+id);
+
 		PostDto dto = null;
 		try {
 			dto = this.services.updatePost(postDto, id);
@@ -75,6 +82,7 @@ public class PostApis {
 	// delete post
 	@DeleteMapping("/posts/{id}")
 	public ResponseEntity<ApiResponse> deletePost(@PathVariable Integer id) {
+		log.info("Deleting post with id:"+id);
 		try {
 			this.services.deletePost(id);
 		} catch (Exception e) {
@@ -86,6 +94,7 @@ public class PostApis {
 	// get single post
 	@GetMapping("/posts/{id}")
 	public ResponseEntity<PostDto> getSinglePost(@PathVariable Integer id) {
+		log.info("Getting post with id:"+id);
 		return ResponseEntity.ok(this.services.getSinglePost(id));
 	}
 
@@ -96,6 +105,7 @@ public class PostApis {
 			@RequestParam(value = "pageSize", defaultValue = AppConstant.PAGE_SIZE, required = false) Integer pageSize,
 			@RequestParam(value = "sortBy", defaultValue = AppConstant.SORT_BY, required = false) String sortBy,
 			@RequestParam(value = "sortDir", defaultValue = AppConstant.SORT_DIR, required = false) String sortDir) {
+		log.info("Getting all posts ");
 		PostResponse allPost = null;
 		try {
 			allPost = this.services.getAllPost(pageNumber, pageSize, sortBy, sortDir);
@@ -108,6 +118,7 @@ public class PostApis {
 	// get all post by category
 	@GetMapping("/category/{categoryId}/posts")
 	public ResponseEntity<List<PostDto>> getPostByCategogy(@PathVariable Integer categoryId) {
+		log.info("Getting all posts by category id:"+categoryId);
 		List<PostDto> post = null;
 		try {
 			post = this.services.getPostsByCategory(categoryId);
@@ -121,6 +132,7 @@ public class PostApis {
 	// get all post by user
 	@GetMapping("/post/{postId}/posts")
 	public ResponseEntity<List<PostDto>> getPostByUser(@PathVariable Integer postId) {
+		log.info("Getting all posts by Post id:" + postId);
 		List<PostDto> post = null;
 		try {
 			post = this.services.getPostByUser(postId);

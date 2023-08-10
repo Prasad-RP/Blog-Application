@@ -29,7 +29,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @RestController
-@RequestMapping("/api/category/")
+@RequestMapping("/api/category")
 public class CategoryApi {
 
 	private static final Logger log = LoggerFactory.getLogger(CategoryApi.class);
@@ -38,7 +38,7 @@ public class CategoryApi {
 	private CategoryServices service;
 
 	// Post-add category
-	@PostMapping("/")
+	@PostMapping("/add")
 	public ResponseEntity<CategoryDto> addCategory(@Valid @RequestBody CategoryDto categoryDto) {
 		log.info("Adding category..");
 		CategoryDto dto = null;

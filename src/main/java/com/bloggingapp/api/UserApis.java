@@ -2,6 +2,8 @@ package com.bloggingapp.api;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,12 +31,15 @@ import jakarta.validation.Valid;
 @RequestMapping("/api/users")
 public class UserApis {
 
+	private static final Logger log = LoggerFactory.getLogger(UserApis.class);
+
 	@Autowired
 	private UserServices service;
 
 	// POST-create user
 	@PostMapping("/new")
 	public ResponseEntity<UserDto> addUser(@Valid @RequestBody UserDto userdto) {
+		log.info("Adding new user...");
 		UserDto dto = null;
 		try {
 			dto = this.service.addUser(userdto);
@@ -49,6 +54,7 @@ public class UserApis {
 	@PutMapping("/{id}")
 	@PreAuthorize("hasAuthority('ADMIN')")
 	public ResponseEntity<UserDto> updateUser(@RequestBody UserDto userDto, @PathVariable("id") Integer id) {
+		log.info("updating user with id: " + id);
 		UserDto updatedUser = null;
 		try {
 			updatedUser = this.service.updateUser(userDto, id);
@@ -63,6 +69,7 @@ public class UserApis {
 	@DeleteMapping("/{id}")
 	@PreAuthorize("hasAuthority('USER')")
 	public ResponseEntity<ApiResponse> userDeleted(@PathVariable("id") Integer id) {
+		log.info("Deleting user with id: " + id);
 		try {
 			this.service.deleteUser(id);
 		} catch (Exception e) {
@@ -75,6 +82,7 @@ public class UserApis {
 	@GetMapping("/all")
 	@PreAuthorize("hasAuthority('ADMIN')")
 	public ResponseEntity<List<UserDto>> getAllUser() {
+		log.info("Getting all users...");
 		return ResponseEntity.ok(this.service.getAllUser());
 	}
 
@@ -82,6 +90,7 @@ public class UserApis {
 	@GetMapping("/{id}")
 	@PreAuthorize("hasAuthority('USER')")
 	public ResponseEntity<UserDto> getById(@PathVariable("id") Integer id) {
+		log.info("Getting user with id:" + id);
 		try {
 		} catch (Exception e) {
 			e.printStackTrace();
