@@ -2,13 +2,21 @@ package com.bloggingapp.api;
 
 import static com.bloggingapp.config.AppConstant.ROLE_ADMIN;
 import static com.bloggingapp.config.AppConstant.ROLE_USER;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,8 +26,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.bloggingapp.dto.ApiResponse;
+import com.bloggingapp.dto.AuthRequest;
 import com.bloggingapp.dto.UserDto;
 import com.bloggingapp.services.UserServices;
+import com.bloggingapp.utils.JwtUtils;
 
 import jakarta.validation.Valid;
 
@@ -35,6 +45,29 @@ public class UserApis {
 
 	@Autowired
 	private UserServices service;
+
+	@Autowired
+	private JwtUtils jwtUtils;
+
+	@Autowired
+	private AuthenticationManager authenticationManager;
+
+	@PostMapping("/login")
+	public ResponseEntity<Map<Object, Object>> authenticateUser(@RequestBody AuthRequest authRequest) {
+		Map<Object, Object> map = new HashMap<>();
+		Authentication authenticate = authenticationManager.authenticate(
+				new UsernamePasswordAuthenticationToken(authRequest.getName(), authRequest.getPassword()));
+
+		if (authenticate.isAuthenticated()) {
+			map.put("Success", true);
+			map.put("Token", jwtUtils.generateToken(authRequest.getName()));
+			return ResponseEntity.ok(map);
+		} else {
+			map.put("Success", false);
+			map.put("MESSAGE", "Unsuccessful authentication");
+			return ResponseEntity.ok(map);
+		}
+	}
 
 	// POST-create user
 	@PostMapping("/new")
