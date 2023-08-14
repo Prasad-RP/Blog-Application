@@ -54,6 +54,7 @@ public class UserApis {
 
 	@PostMapping("/login")
 	public ResponseEntity<Map<Object, Object>> authenticateUser(@RequestBody AuthRequest authRequest) {
+		log.info("Getting logged in...");
 		Map<Object, Object> map = new HashMap<>();
 		Authentication authenticate = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(authRequest.getName(), authRequest.getPassword()));
