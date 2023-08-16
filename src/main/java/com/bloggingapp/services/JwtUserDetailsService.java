@@ -42,11 +42,12 @@ public class JwtUserDetailsService implements UserDetailsService {
 
 		} catch (Exception e) {
 			e.printStackTrace();
+			throw new UsernameNotFoundException("User not found : " + username);
 		}
 		// return user.map(JwtUserService::new)
 		// .orElseThrow(() -> new UsernameNotFoundException("user not found" +
 		// username));
-		return null;
+		// throw new UsernameNotFoundException("User not found : " + username);
 	}
 
 }
