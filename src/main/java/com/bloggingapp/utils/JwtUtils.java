@@ -57,8 +57,16 @@ public class JwtUtils {
 		return createToken(claims, username);
 	}
 
+	/**
+	 * Method will generate JWT token using username
+	 * 
+	 * @param JwtBuilder io.jsonwebtoken.JwtBuilder.setClaims
+	 * @return JWT Token
+	 * @throws NoSuchAlgorithmException
+	 * @throws InvalidKeyException
+	 * 
+	 */
 	private String createToken(Map<String, Object> claims, String username) {
-		// TODO Auto-generated method stub
 		return Jwts.builder().setClaims(claims).setSubject(username).setIssuedAt(new Date(System.currentTimeMillis()))
 				.setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 30))
 				.signWith(getSignKey(), SignatureAlgorithm.HS256).compact();
