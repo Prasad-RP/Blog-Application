@@ -16,7 +16,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.bloggingapp.config.JwtUserService;
 import com.bloggingapp.entity.UserMaster;
 import com.bloggingapp.repository.UserRepository;
 
@@ -33,20 +32,21 @@ public class JwtUserDetailsService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		// try {
-		log.info("valdating userdetails....");
-		Optional<UserMaster> user = repository.findByName(username);
+		try {
+			log.info("valdating userdetails....");
+			Optional<UserMaster> user = repository.findByName(username);
 
-//
-//			List<GrantedAuthority> grantedAuthority = Arrays.stream(user.getRoles().split(","))
-//					.map(SimpleGrantedAuthority::new).collect(Collectors.toList());
-//			return new User(user.getName(), user.getPassword(), grantedAuthority);
-//
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-		return user.map(JwtUserService::new)
-				.orElseThrow(() -> new UsernameNotFoundException("user not found" + username));
+			List<GrantedAuthority> grantedAuthority = Arrays.stream(user.get().getRoles().split(","))
+					.map(SimpleGrantedAuthority::new).collect(Collectors.toList());
+			return new User(user.get().getName(), user.get().getPassword(), grantedAuthority);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		// return user.map(JwtUserService::new)
+		// .orElseThrow(() -> new UsernameNotFoundException("user not found" +
+		// username));
+		return null;
 	}
 
 }

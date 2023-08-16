@@ -37,10 +37,10 @@ import jakarta.servlet.http.HttpServletResponse;
  * 
  */
 @RestController
-@RequestMapping("/api/")
+@RequestMapping("/api/post")
 public class PostApis {
 
-private static final Logger log = LoggerFactory.getLogger(PostApis.class);
+	private static final Logger log = LoggerFactory.getLogger(PostApis.class);
 
 	@Autowired
 	private PostServices services;
@@ -55,7 +55,7 @@ private static final Logger log = LoggerFactory.getLogger(PostApis.class);
 	@PostMapping("/user/{userId}/category/{categoryId}/posts")
 	public ResponseEntity<PostDto> addPost(@RequestBody PostDto postDto, @PathVariable Integer userId,
 			@PathVariable Integer categoryId) {
-		log.info("addig post with category id"+categoryId+" for user with id"+userId);
+		log.info("addig post with category id" + categoryId + " for user with id" + userId);
 		PostDto dto = null;
 		try {
 			dto = this.services.createPost(postDto, userId, categoryId);
@@ -66,9 +66,9 @@ private static final Logger log = LoggerFactory.getLogger(PostApis.class);
 	}
 
 	// updatePost
-	@PutMapping("/posts/{id}")
+	@PutMapping("/{id}")
 	public ResponseEntity<PostDto> updatePost(@PathVariable Integer id, @RequestBody PostDto postDto) {
-		log.info("Updating post with id:"+id);
+		log.info("Updating post with id:" + id);
 
 		PostDto dto = null;
 		try {
@@ -80,9 +80,9 @@ private static final Logger log = LoggerFactory.getLogger(PostApis.class);
 	}
 
 	// delete post
-	@DeleteMapping("/posts/{id}")
+	@DeleteMapping("/{id}")
 	public ResponseEntity<ApiResponse> deletePost(@PathVariable Integer id) {
-		log.info("Deleting post with id:"+id);
+		log.info("Deleting post with id:" + id);
 		try {
 			this.services.deletePost(id);
 		} catch (Exception e) {
@@ -92,14 +92,14 @@ private static final Logger log = LoggerFactory.getLogger(PostApis.class);
 	}
 
 	// get single post
-	@GetMapping("/posts/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<PostDto> getSinglePost(@PathVariable Integer id) {
-		log.info("Getting post with id:"+id);
+		log.info("Getting post with id:" + id);
 		return ResponseEntity.ok(this.services.getSinglePost(id));
 	}
 
 	// get all post
-	@GetMapping("/posts")
+	@GetMapping("/allposts")
 	public ResponseEntity<PostResponse> getAllPost(
 			@RequestParam(value = "pageNumber", defaultValue = AppConstant.PAGE_NUMBER, required = false) Integer pageNumber,
 			@RequestParam(value = "pageSize", defaultValue = AppConstant.PAGE_SIZE, required = false) Integer pageSize,
@@ -118,7 +118,7 @@ private static final Logger log = LoggerFactory.getLogger(PostApis.class);
 	// get all post by category
 	@GetMapping("/category/{categoryId}/posts")
 	public ResponseEntity<List<PostDto>> getPostByCategogy(@PathVariable Integer categoryId) {
-		log.info("Getting all posts by category id:"+categoryId);
+		log.info("Getting all posts by category id:" + categoryId);
 		List<PostDto> post = null;
 		try {
 			post = this.services.getPostsByCategory(categoryId);
@@ -130,7 +130,7 @@ private static final Logger log = LoggerFactory.getLogger(PostApis.class);
 	}
 
 	// get all post by user
-	@GetMapping("/post/{postId}/posts")
+	@GetMapping("/{postId}/posts")
 	public ResponseEntity<List<PostDto>> getPostByUser(@PathVariable Integer postId) {
 		log.info("Getting all posts by Post id:" + postId);
 		List<PostDto> post = null;
@@ -143,7 +143,7 @@ private static final Logger log = LoggerFactory.getLogger(PostApis.class);
 	}
 
 	// search by title
-	@GetMapping("/post/search/{keywords}")
+	@GetMapping("/search/{keywords}")
 	public ResponseEntity<List<PostDto>> searchPostByTitle(@PathVariable String keywords) {
 		List<PostDto> post = null;
 		post = this.services.serchPosts(keywords);
@@ -151,7 +151,7 @@ private static final Logger log = LoggerFactory.getLogger(PostApis.class);
 	}
 
 	// post image upload
-	@PostMapping("/post/image/upload/{postId}")
+	@PostMapping("/image/upload/{postId}")
 	public ResponseEntity<PostDto> uploadImage(@RequestParam("image") MultipartFile image, @PathVariable Integer postId)
 			throws IOException {
 		PostDto postDto = null;
@@ -169,7 +169,7 @@ private static final Logger log = LoggerFactory.getLogger(PostApis.class);
 	}
 
 	// method to serve files
-	@GetMapping(value = "post/image/{imageName}", produces = MediaType.IMAGE_JPEG_VALUE)
+	@GetMapping(value = "/image/{imageName}", produces = MediaType.IMAGE_JPEG_VALUE)
 	public void downloadImage(@PathVariable("imageName") String imageName, HttpServletResponse response)
 			throws IOException {
 		InputStream resource = null;

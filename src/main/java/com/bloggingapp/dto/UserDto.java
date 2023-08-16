@@ -2,8 +2,6 @@ package com.bloggingapp.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
-
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class UserDto {
 
-	private int id;
+	private Integer id;
 
 	@NotEmpty
 	@Size(min = 4, message = "Username must be 4 character !!")

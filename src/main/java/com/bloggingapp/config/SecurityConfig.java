@@ -38,6 +38,8 @@ public class SecurityConfig {
 
 	private final String[] ACCESS_APIS = { "/api/users/login", "/api/users/new" };
 
+	private final String[] PERMIT_APIS = { "/api/users/**", "/api/category/**", "/api/post/**" };
+
 	private static final Logger log = LoggerFactory.getLogger(SecurityConfig.class);
 
 	@Bean
@@ -54,7 +56,7 @@ public class SecurityConfig {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		log.info("Configuring HttpSecurity...");
 		return http.csrf().disable().authorizeHttpRequests().requestMatchers(ACCESS_APIS).permitAll().and()
-				.authorizeHttpRequests().requestMatchers("/api/users/**").authenticated().and().sessionManagement()
+				.authorizeHttpRequests().requestMatchers(PERMIT_APIS).authenticated().and().sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 				.authenticationProvider(authenticationProvider())
 				.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class).build();

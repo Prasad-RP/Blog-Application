@@ -1,6 +1,7 @@
 package com.bloggingapp.servicesimpl;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -82,10 +83,10 @@ public class UserServicesImpl implements UserServices {
 		UserDto userDto1 = null;
 		try {
 			user = this.userRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException(" user ", " id ", id));
-			user.setId(userDto.getId());
+			// user.setId(userDto.getId());
 			user.setName(userDto.getName());
 			user.setEmail(userDto.getEmail());
-			user.setPassword(userDto.getPassword());
+			user.setPassword(encoder.encode(userDto.getPassword()));
 
 			updateId = this.userRepo.save(user);
 			userDto1 = this.userToUserDto(updateId);
@@ -104,6 +105,11 @@ public class UserServicesImpl implements UserServices {
 	public UserDto userToUserDto(UserMaster user) {
 		UserDto userDto = this.modelMapper.map(user, UserDto.class);
 		return userDto;
+	}
+
+	@Override
+	public Optional<UserMaster> getByUserName(String name) {
+		return userRepo.findByName(name);
 	}
 
 //	User userDtoToUser(UserDto userDto) {

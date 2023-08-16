@@ -1,5 +1,7 @@
 package com.bloggingapp.api;
 
+import static com.bloggingapp.config.AppConstant.ROLE_USER;
+
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -7,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,6 +42,7 @@ public class CategoryApi {
 
 	// Post-add category
 	@PostMapping("/add")
+	@PreAuthorize(ROLE_USER)
 	public ResponseEntity<CategoryDto> addCategory(@Valid @RequestBody CategoryDto categoryDto) {
 		log.info("Adding category..");
 		CategoryDto dto = null;
@@ -53,6 +57,7 @@ public class CategoryApi {
 
 	// PUT-update date
 	@PutMapping("/{id}")
+	@PreAuthorize(ROLE_USER)
 	public ResponseEntity<CategoryDto> updateCategory(@Valid @RequestBody CategoryDto category,
 			@PathVariable("id") Integer id) {
 		log.info("Updating category by Id: " + id);
@@ -68,6 +73,7 @@ public class CategoryApi {
 
 	// Delete
 	@DeleteMapping("/{id}")
+	@PreAuthorize(ROLE_USER)
 	public ResponseEntity<ApiResponse> deleteCategory(@PathVariable("id") Integer id) {
 		try {
 			log.info("Deleting category by Id: " + id);
@@ -80,6 +86,7 @@ public class CategoryApi {
 
 	// GET- single category
 	@GetMapping("/{id}")
+	@PreAuthorize(ROLE_USER)
 	public ResponseEntity<CategoryDto> getCategory(@PathVariable("id") Integer id) {
 		log.info("fetching category info by Id: " + id);
 		return ResponseEntity.ok(this.service.getCategory(id));
@@ -87,6 +94,7 @@ public class CategoryApi {
 
 	// GET-all category
 	@GetMapping("/all")
+	@PreAuthorize(ROLE_USER)
 	public ResponseEntity<List<CategoryDto>> getAllCategory() {
 		log.info("Getting all categories.. ");
 		return ResponseEntity.ok(this.service.getAllCategory());
