@@ -13,6 +13,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import com.bloggingapp.services.JwtUserDetailsService;
 import com.bloggingapp.utils.JwtUtils;
 
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -30,13 +32,32 @@ public class JwtFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
-		String header = request.getHeader("Authorization");
+		String requestHeader = request.getHeader("Authorization");
 		String token = null;
 		String username = null;
-		if (header != null && header.startsWith("Bearer")) {
-			token = header.substring(7);
-			username = jwtUtils.extractUsername(token);
+		if (requestHeader != null && requestHeader.startsWith("Bearer")) {
+
+			token = requestHeader.substring(7);
+			try {
+				username = this.jwtUtils.extractUsername(token);
+
+			} catch (IllegalArgumentException e) {
+				logger.info("Illegal Argument while fetching the username !!");
+				e.printStackTrace();
+				throw new IllegalArgumentException("Invalid Details");
+			} catch (ExpiredJwtException e) {
+				logger.info("Given jwt token is expired !!");
+				e.printStackTrace();
+				throw new ExpiredJwtException(null, null, "Invalid Details");
+			} catch (MalformedJwtException e) {
+				logger.info("Some changed has done in token !! Invalid Token");
+				e.printStackTrace();
+				throw new MalformedJwtException("Invalid Token");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
+
 		if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 			UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(username);
 			if (jwtUtils.validateToken(token, userDetails)) {
