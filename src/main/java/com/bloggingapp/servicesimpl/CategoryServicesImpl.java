@@ -51,6 +51,7 @@ public class CategoryServicesImpl implements CategoryServices {
 
 		} catch (Exception e) {
 			e.printStackTrace();
+			
 		}
 		return dto;
 	}
@@ -60,8 +61,7 @@ public class CategoryServicesImpl implements CategoryServices {
 
 		CategoryMaster category = this.repo.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException(" Category ", " id ", id));
-		this.repo.deleteById(id);
-
+		repo.deleteById(id);
 	}
 
 	@Override
