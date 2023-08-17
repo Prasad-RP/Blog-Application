@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.bloggingapp.dto.ApiResponse;
+
+import io.jsonwebtoken.MalformedJwtException;
 
 @RestControllerAdvice
 public class GlobleExceptionHandler {
@@ -39,5 +42,19 @@ public class GlobleExceptionHandler {
 		String message = ex.getMessage();
 		ApiResponse apiResponse = new ApiResponse(message, false);
 		return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.NOT_FOUND);
+	}
+
+	@ExceptionHandler(BadCredentialsException.class)
+	public ResponseEntity<ApiResponse> badCredentialsException(BadCredentialsException ex) {
+		String message = ex.getLocalizedMessage();
+		ApiResponse apiResponse = new ApiResponse(message, false);
+		return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.UNAUTHORIZED);
+	}
+
+	@ExceptionHandler(MalformedJwtException.class)
+	public ResponseEntity<ApiResponse> malformedJwtException(MalformedJwtException ex) {
+		String message = ex.getLocalizedMessage();
+		ApiResponse apiResponse = new ApiResponse(message, false);
+		return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.UNAUTHORIZED);
 	}
 }

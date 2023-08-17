@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -63,11 +64,9 @@ public class UserApis {
 			map.put("Success", true);
 			map.put("Token", jwtUtils.generateToken(authRequest.getName()));
 			return ResponseEntity.ok(map);
-		} else {
-			map.put("Success", false);
-			map.put("MESSAGE", "Unsuccessful authentication");
-			return ResponseEntity.ok(map);
 		}
+
+		throw new BadCredentialsException("Invalid credentitals");
 	}
 
 	// POST-create user
