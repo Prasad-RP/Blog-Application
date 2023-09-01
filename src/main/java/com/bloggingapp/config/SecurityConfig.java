@@ -40,7 +40,7 @@ public class SecurityConfig {
 	@Autowired
 	private JwtAuthenticationEntryPoint authenticationEntryPoint;
 
-	private final String[] ACCESS_APIS = { "/api/users/login", "/api/users/new" };
+	private final String[] ACCESS_APIS = { "/api/login", "/api/users/new" };
 
 	private final String[] PERMIT_APIS = { "/api/users/**", "/api/category/**", "/api/post/**" };
 
