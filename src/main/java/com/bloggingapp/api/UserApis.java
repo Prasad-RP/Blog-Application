@@ -130,4 +130,16 @@ public class UserApis {
 		}
 		return ResponseEntity.ok(this.service.getById(id));
 	}
+
+	// GET-single user
+	@GetMapping("/roles/{id}")
+	@PreAuthorize(ROLE_USER)
+	public ResponseEntity<String> getRolesById(@PathVariable("id") Integer id) {
+		log.info("Getting user roles with id:" + id);
+		try {
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return ResponseEntity.ok(this.service.getRolesById(id));
+	}
 }
