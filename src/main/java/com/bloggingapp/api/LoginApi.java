@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bloggingapp.dto.AuthRequest;
+import com.bloggingapp.services.UserServices;
 import com.bloggingapp.utils.JwtUtils;
 
 /**
@@ -35,6 +36,9 @@ public class LoginApi {
 	private JwtUtils jwtUtils;
 
 	@Autowired
+	private UserServices userServices;
+
+	@Autowired
 	private AuthenticationManager authenticationManager;
 
 	@PostMapping("/login")
@@ -46,6 +50,7 @@ public class LoginApi {
 
 		if (authenticate.isAuthenticated()) {
 			map.put("Success", true);
+			map.put("Roles", userServices.getRolesById(authRequest.getId()));
 			map.put("Token", jwtUtils.generateToken(authRequest.getName()));
 			return ResponseEntity.ok(map);
 		}

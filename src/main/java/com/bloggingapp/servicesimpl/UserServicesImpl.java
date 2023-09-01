@@ -3,6 +3,7 @@ package com.bloggingapp.servicesimpl;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -110,6 +111,13 @@ public class UserServicesImpl implements UserServices {
 	@Override
 	public Optional<UserMaster> getByUserName(String name) {
 		return userRepo.findByName(name);
+	}
+
+	@Override
+	public String getRolesById(Integer userId) {
+		UserMaster user = userRepo.findById(userId)
+				.orElseThrow(() -> new ResourceNotFoundException("user ", "id", userId));
+		return user.getRoles();
 	}
 
 //	User userDtoToUser(UserDto userDto) {

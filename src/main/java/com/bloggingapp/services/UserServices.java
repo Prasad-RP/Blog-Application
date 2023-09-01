@@ -10,18 +10,20 @@ import jakarta.transaction.Transactional;
 
 @Transactional
 public interface UserServices {
-	
+
 	UserDto addUser(UserDto userDto);
-	
-	void deleteUser(Integer id);
-	
-	UserDto getById(Integer id);
-	
+
+	void deleteUser(Integer userId);
+
+	UserDto getById(Integer userId);
+
+	String getRolesById(Integer userId);
+
 	List<UserDto> getAllUser();
-	
+
 	@Transactional
-	UserDto updateUser(UserDto userDto,Integer Id);
-		
+	UserDto updateUser(UserDto userDto, Integer userId);
+
 	Optional<UserMaster> getByUserName(String name);
 
 }
