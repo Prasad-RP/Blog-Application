@@ -1,0 +1,250 @@
+Mappings in Spring Boot =>
+Tables forming relationships in databse we need to specify these relationships in our entity(class representing database tables)
+for jpa(java persistatnce api).
+so to represent mappings we have annotations @OneToOne ,@ManyToOne , @ManyToMany 
+------------------------------------------------------------------------------------------------------------
+		1. One to One mapping :
+------------------------------------------------------------------------------------------------------------
+		if Two tables t1 and t2 having one to one relation . follwing syntax would be used.
+		1. class T1 ==>
+
+			Class T1 {								
+				//This is primary key					
+				@id
+				@Column(name="t1_id")
+				int t1Id;								
+					
+				@OneToOne(mappedBy=t1)					
+				private T2 t2; 													
+			}
+
+			2. class T2 ==>
+
+			class T2 {
+			// This is primary key
+			@id
+			@Column(name="t2_id")
+			int t2Id;
+			
+			@OneToOne(fetch = FetchType.LAZY)
+			@JoinColumn(name = "t1_id", nullable = false)
+			private T1 t1;
+		}
+
+		================================================================
+		ex.. We have a table called EmployeeMaster and EmpoloyeeProfile.
+			They are having a one to one relationship
+		=================================================================
+
+			1. class EmployeeMaster ==>
+
+			@Getter
+			@Setter
+			@NoArgsConstructor
+			@Entity
+			@Table(name = "employee_master")
+			@NamedQuery(name = "EmployeeMaster.findAll", query = "SELECT e FROM EmployeeMaster e")
+			public class EmployeeMaster extends Auditable implements Serializable, EntityMarker {
+
+				private static final long serialVersionUID = 74264278278274987L;
+
+				@Id
+				@GeneratedValue(strategy = GenerationType.IDENTITY)
+				@Column(name = "staff_id")
+				private Long staffId;
+
+				@OneToOne(mappedBy = "employeeMaster", cascade = DETACH, fetch = LAZY)
+				private EmployeeProfileMaster employeeProfileMaster;
+				
+			}
+
+			2. class EmployeeProfileMaster ==>
+
+				@Getter
+				@Setter
+				@NoArgsConstructor
+				@Entity
+				@Table(name = "employee_profile")
+				@NamedQuery(name = "EmployeeProfileMaster.findAll", query = "SELECT e FROM EmployeeProfileMaster e")
+				public class EmployeeProfileMaster extends Auditable implements Serializable, EntityMarker {
+
+					private static final long serialVersionUID = 74264278278274987L;
+
+					@Id
+					@GeneratedValue(strategy = GenerationType.IDENTITY)
+					@Column(name="emp_profile_id")
+					private Long empProfileId;
+
+					@OneToOne(fetch = LAZY, cascade = { PERSIST, MERGE })
+					@JoinColumn(name= "staff_id", nullable = false)
+					private EmployeeMaster employeeMaster;
+					
+					// Similar way when we have used reference column for primary key
+					// @OneToOne(fetch = LAZY, cascade = { PERSIST, MERGE })
+					// @JoinColumn(name = "Profile_ID", referencedColumnName = "staff_id", nullable = false)
+					// private EmployeeMaster employeeMaster;
+
+			}
+------------------------------------------------------------------------------------------------------------
+		2. One to many mapping :
+------------------------------------------------------------------------------------------------------------
+		if Two tables t1 and t2 having one to many relation . follwing syntax would be used.
+		note : @JoinColumn always used in many table i.e table in which primary is coming as foreign key.
+
+			1. class T1 ==>
+
+				Class T1 {								
+					//This is primary key					
+					@id
+					@Column(name="t1_id")
+					int t1Id;								
+						
+					@OneToMany(mappedBy=t1)					
+					private List<T2> t2; 													
+				}
+
+			2. class T2 ==>
+
+				class T2 {
+				// This is primary key
+				@id
+				@Column(name="t2_id")
+				int t2Id;
+				
+				@ManyToOne(fetch = FetchType.LAZY)
+				@JoinColumn(name = "t1_id", nullable = false)
+				private T1 t1;
+			}
+
+		================================================================
+		ex.. We have a table called ProjectManager and ProjectMaster.
+			They are having a one to many relationship
+		=================================================================
+
+			1. class ProjectManager ==>
+
+				@Setter
+				@Getter
+				@NoArgsConstructor
+				@Entity
+				@Table(name = "project_manager")
+				@NamedQuery(name = "ProjectManager.findAll", query = "SELECT u FROM ProjectManager u")
+				public class ProjectManager extends Auditable implements Serializable, EntityMarker {
+
+					private static final long serialVersionUID = -3537808561436160156L;
+
+					@Id
+					@Column(name = "user_id", nullable = false, unique = true, length = 255)
+					private String userId;
+
+					@OneToMany(mappedBy = "projectManager")
+					private Set<ProjectMaster> projectMaster;
+
+				}
+				
+			2. class ProjectMaster ==>
+	
+				@Setter
+				@Getter
+				@NoArgsConstructor
+				@Entity
+				@Table(name = "project_master")
+				@NamedQuery(name = "ProjectMaster.findAll", query = "SELECT u FROM ProjectMaster u")
+				public class ProjectMaster extends Auditable implements Serializable, EntityMarker{
+					
+					private static final long serialVersionUID = -3537108561436199156L;
+					
+					@Id
+					@GeneratedValue(strategy = IDENTITY)
+					@Column(name = "project_id", unique = true, nullable = false)
+					private Long projectId;
+
+					@ManyToOne(fetch = LAZY)
+					@JoinColumn(name = "user_id", nullable = false)
+					private UserMaster projectManager;
+				}
+------------------------------------------------------------------------------------------------------------
+		3. Many to many mapping :
+------------------------------------------------------------------------------------------------------------
+		
+		if Two tables t1 and t2 having many to many relation , then a third table will be created in which 
+		primary key of t1 and t2 would be stored, for this follwing syntax would be used.
+
+			1. class T1 ==>
+
+				Class T1 {								
+					//This is primary key					
+					@id
+					@Column(name="t1_id")
+					int t1Id;								
+						
+					@ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH})					
+					@JoinTable(name="t3" ,joinColumns= @JoinColumn(name = "t1_id"), inverseJoinColumns =@JoinColumn(name = "t2_id"))
+					private List<T2> t2; 													
+				}
+
+			2. class T2 ==>
+
+				class T2 {
+				// This is primary key
+				@id
+				@Column(name="t2_id")
+				int t2Id;
+				
+				@ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH})					
+				@JoinTable(name="t3" ,joinColumns= @JoinColumn(name = "t2_id"), inverseJoinColumns =@JoinColumn(name = "t1_id"))
+				private T1 t1;
+			}
+
+		================================================================
+		ex.. We have a table called EmployeeMaster and RoleMaster.
+			They are having a many to many relationship, so third
+			table will be form named user_role.
+		=================================================================
+
+			1. class EmployeeMaster ==>
+
+				@Getter
+				@Setter
+				@NoArgsConstructor
+				@Entity
+				@Table(name = "employee_master")
+				@NamedQuery(name = "EmployeeMaster.findAll", query = "SELECT e FROM EmployeeMaster e")
+				public class EmployeeMaster extends Auditable implements Serializable, EntityMarker {
+
+					private static final long serialVersionUID = 74264278278274987L;
+
+					@Id
+					@GeneratedValue(strategy = GenerationType.IDENTITY)
+					@Column(name = "staff_id")
+					private Long staffId;
+
+					@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH,
+							CascadeType.REFRESH })
+					@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+					private List<RoleMaster> roleMaster;
+				}
+
+			2. class RoleMaster ==>
+
+				@Getter
+				@Setter
+				@NoArgsConstructor
+				@Entity
+				@Table(name = "role_master")
+				@NamedQuery(name = "RoleMaster.findAll", query = "SELECT r FROM RoleMaster r")
+				public class RoleMaster extends Auditable implements Serializable, EntityMarker {
+
+					private static final long serialVersionUID = -5825772919090321935L;
+
+					@Id
+					@GeneratedValue(strategy = GenerationType.IDENTITY)
+					@Column(name = "role_id")
+					private Long roleId;
+
+					@ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH,
+							CascadeType.REFRESH })
+					@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "role_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
+					private List<EmployeeMaster> employees = new ArrayList<EmployeeMaster>();
+
+				}
