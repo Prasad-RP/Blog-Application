@@ -19,7 +19,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.bloggingapp.config.filter.JwtAuthenticationEntryPoint;
 import com.bloggingapp.config.filter.JwtFilter;
 import com.bloggingapp.services.JwtUserDetailsService;
 
@@ -37,8 +36,8 @@ public class SecurityConfig {
 	@Autowired
 	private JwtFilter jwtFilter;
 
-	@Autowired
-	private JwtAuthenticationEntryPoint authenticationEntryPoint;
+//	@Autowired
+//	private JwtAuthenticationEntryPoint authenticationEntryPoint;
 
 	private final String[] ACCESS_APIS = { "/api/users/login", "/api/users/new" };
 
@@ -61,8 +60,9 @@ public class SecurityConfig {
 		log.info("Configuring HttpSecurity...");
 		return http.csrf().disable().authorizeHttpRequests().requestMatchers(ACCESS_APIS).permitAll().and()
 				.authorizeHttpRequests().requestMatchers(PERMIT_APIS).authenticated().and()
-				.exceptionHandling(ex -> ex.authenticationEntryPoint(authenticationEntryPoint)).sessionManagement()
-				.sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+				// .exceptionHandling(ex ->
+				// ex.authenticationEntryPoint(authenticationEntryPoint))
+				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 				.authenticationProvider(authenticationProvider())
 				.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class).build();
 	}
