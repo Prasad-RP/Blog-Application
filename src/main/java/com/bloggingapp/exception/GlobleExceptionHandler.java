@@ -48,13 +48,20 @@ public class GlobleExceptionHandler {
 	public ResponseEntity<ApiResponse> badCredentialsException(BadCredentialsException ex) {
 		String message = ex.getLocalizedMessage();
 		ApiResponse apiResponse = new ApiResponse(message, false);
-		return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.UNAUTHORIZED);
+		return new ResponseEntity<>(apiResponse, HttpStatus.UNAUTHORIZED);
 	}
 
 	@ExceptionHandler(MalformedJwtException.class)
 	public ResponseEntity<ApiResponse> malformedJwtException(MalformedJwtException ex) {
 		String message = ex.getLocalizedMessage();
 		ApiResponse apiResponse = new ApiResponse(message, false);
-		return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.UNAUTHORIZED);
+		return new ResponseEntity<>(apiResponse, HttpStatus.UNAUTHORIZED);
+	}
+
+	@ExceptionHandler(Exception.class)
+	public ResponseEntity<ApiResponse> exception(Exception ex) {
+		String message = ex.getLocalizedMessage();
+		ApiResponse apiResponse = new ApiResponse(message, false);
+		return new ResponseEntity<>(apiResponse, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 }
